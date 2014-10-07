@@ -44,7 +44,7 @@ if ( isset( $_REQUEST['csv'] ) && $_REQUEST['csv'] == 'signatures' ) {
 		$lastname       = __( 'Last Name', 'dk_speakup' );
 		$email          = __( 'Email Address', 'dk_speakup' );
 		$street         = __( 'Street Address', 'dk_speakup' );
-		$city           = __( 'City', 'dk_speakup' );
+		$city           = __( 'Occupation', 'dk_speakup' );
 		$state          = __( 'State', 'dk_speakup' );
 		$postcode       = __( 'Post Code', 'dk_speakup' );
 		$country        = __( 'Country', 'dk_speakup' );
@@ -54,6 +54,7 @@ if ( isset( $_REQUEST['csv'] ) && $_REQUEST['csv'] == 'signatures' ) {
 		$petitions_id   = __( 'Petition ID', 'dk_speakup' );
 		$email_optin    = __( 'Email Opt-in', 'dk_speakup' );
 		$custom_message = __( 'Custom Message', 'dk_speakup' );
+		$accept			= __( 'Accept', 'dk_speakup' );
 		$language       = __( 'Language', 'dk_speakup' );
 
 		// If set, use the custom field label as column header instead of "Custom Field"
@@ -72,7 +73,7 @@ if ( isset( $_REQUEST['csv'] ) && $_REQUEST['csv'] == 'signatures' ) {
 
 		// construct CSV file header row
 		// must use double quotes and separate with tabs
-		$csv = "$firstname	$lastname	$email	$street	$city	$state	$postcode	$country	$custom_field_label	$date	$confirmed	$petition_title	$petitions_id	$email_optin	$custom_message	$language";
+		$csv = "$firstname	$lastname	$email	$street	$city	$state	$postcode	$country	$custom_field_label	$date	$confirmed	$petition_title	$petitions_id	$email_optin	$custom_message	$accept	$language";
 		$csv .= "\n";
 
 		// construct CSV file data rows
@@ -99,7 +100,19 @@ if ( isset( $_REQUEST['csv'] ) && $_REQUEST['csv'] == 'signatures' ) {
 			else {
 				$optin = '...';
 			}
-			$csv .=  stripslashes( '"' . $signature->first_name . '"	"' . $signature->last_name . '"	"' . $signature->email . '"	"' . $signature->street_address . '"	"' . $signature->city . '"	"' . $signature->state . '"	"' . $signature->postcode . '"	"' . $signature->country . '"	"' . $signature->custom_field . '"	"' . $signature->date . '"	"' . $confirm . '"	"' . $signature->title . '"	"' . $signature->petitions_id . '"	"' . $optin . '"	"' . $signature->custom_message . '"	"' . $signature->language . '"' );
+			
+			// Hack convert the y, n, or '' values of accept to readable format
+			$accept = $signature->accept;
+			if ( $accept == 'y' ) {
+				$accept = __( 'yes', 'dk_speakup' );
+			}
+			elseif ( $accept == 'n' ) {
+				$accept = __( 'no', 'dk_speakup' );
+			}
+			else {
+				$accept = '...';
+			}
+			$csv .=  stripslashes( '"' . $signature->first_name . '"	"' . $signature->last_name . '"	"' . $signature->email . '"	"' . $signature->street_address . '"	"' . $signature->city . '"	"' . $signature->state . '"	"' . $signature->postcode . '"	"' . $signature->country . '"	"' . $signature->custom_field . '"	"' . $signature->date . '"	"' . $confirm . '"	"' . $signature->title . '"	"' . $signature->petitions_id . '"	"' . $optin . '"	"' . $signature->custom_message . '"	"' . $accept . '"	"' . $signature->language . '"' );
 			$csv .= "\n";
 		}
 
