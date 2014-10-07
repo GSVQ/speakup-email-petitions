@@ -70,7 +70,7 @@ jQuery( document ).ready( function( $ ) {
 			errors ++;
 		}
 		if ( postcode === '' ) {
-			alert("No introducido CP") ;
+			alert("No ha introducido un Código Postal") ;
 			$( '#dk-speakup-postcode-' + id ).addClass( 'dk-speakup-error' );
 			errors ++;
 		}
