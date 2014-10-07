@@ -48,6 +48,7 @@ function dk_speakup_install() {
 			`confirmation_code` VARCHAR(32) NOT NULL,
 			`is_confirmed` CHAR(1) BINARY NOT NULL,
 			`custom_message` LONGTEXT CHARACTER SET utf8 NOT NULL,
+			`accept` VARCHAR(1) CHARACTER SET utf8 NOT NULL,
 			`language` VARCHAR(10) CHARACTER SET utf8 NOT NULL,
 			UNIQUE KEY  (`id`)
 		);";
