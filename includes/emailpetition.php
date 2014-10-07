@@ -65,7 +65,7 @@ function dk_speakup_emailpetition_shortcode( $attr ) {
 					<div class="dk-speakup-petition-wrap ' . $css_classes . '" id="dk-speakup-petition-' . $petition->id . '" ' . $width . '>
 						<h3>' . stripslashes( esc_html( $petition->title ) ) . '</h3>
 						<a id="dk-speakup-readme-' . $petition->id . '" class="dk-speakup-readme" rel="' . $petition->id . '" style="display: none;"><span>' . __( 'Read the petition', 'dk_speakup' ) . '</span></a>
-						<div class="dk-speakup-response"></div>
+						
 						<form class="dk-speakup-petition">
 							<input type="hidden" id="dk-speakup-posttitle-' . $petition->id . '" value="' . esc_attr( urlencode( stripslashes( $petition->title ) ) ) .'" />
 							<input type="hidden" id="dk-speakup-tweet-' . $petition->id . '" value="' . dk_speakup_SpeakUp::twitter_encode( $petition->twitter_message ) .'" />
@@ -118,7 +118,7 @@ function dk_speakup_emailpetition_shortcode( $attr ) {
 				if ( in_array( 'postcode', $petition->address_fields ) ) {
 					$petition_form .= '
 							<div class="dk-speakup-half">
-								<label for="dk-speakup-postcode-' . $petition->id . '">' . __( 'Post Code', 'dk_speakup' ) . '</label>
+								<label class="required" for="dk-speakup-postcode-' . $petition->id . '">' . __( 'Post Code', 'dk_speakup' ) . '</label>
 								<input name="dk-speakup-postcode" id="dk-speakup-postcode-' . $petition->id . '" maxlength="200" type="text" />
 							</div>';
 				}
@@ -155,6 +155,21 @@ function dk_speakup_emailpetition_shortcode( $attr ) {
 								<p class="dk-speakup-caps">[' . __( 'signature', 'dk-speakup' ) . ']</p>
 							</div>';
 				}
+				# Hack for accept checkbox
+				
+				$petition_form .= '
+							<div class="dk-speakup-optin-wrap">	
+                				
+               
+                <input type="checkbox" name="dk-speakup-accept" id="dk-speakup-accept-' . $petition->id . '" />
+                <label class = "required" for="dk-speakup-accept-' . $petition->id . '"> Acepto publicar mis datos </label><br />
+                
+              </div>
+   
+  					';         
+				// End Hack to add checkboxes  
+				
+				
 				if ( $petition->displays_optin == 1 ) {
 					$optin_default = ( $options['optin_default'] == 'checked' ) ? ' checked="checked"' : '';
 					$petition_form .= '
@@ -168,7 +183,7 @@ function dk_speakup_emailpetition_shortcode( $attr ) {
 								<div id="dk-speakup-ajaxloader-' . $petition->id . '" class="dk-speakup-ajaxloader" style="visibility: hidden;">&nbsp;</div>
 								<a name="' . $petition->id . '" class="dk-speakup-submit"><span>' . stripslashes( esc_html( $options['button_text'] ) ) . '</span></a>
 							</div>
-						</form>';
+						</form><div class="dk-speakup-response"></div>';
 				if ( $options['display_count'] == 1 ) {
 					$petition_form .= '
 						<div class="dk-speakup-progress-wrap">

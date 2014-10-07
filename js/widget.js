@@ -67,9 +67,15 @@ jQuery( document ).ready( function( $ ) {
 				country        = $( '#dk-speakup-widget-country-' + id ).val(),
 				custom_field   = $( '#dk-speakup-widget-custom-field-' + id ).val(),
 				custom_message = $( 'textarea#dk-speakup-widget-message-' + id ).val(),
+				accept   = 'n', //Hack - to add new 'accept' variable
 				optin          = '',
 				ajaxloader     = $( '#dk-speakup-widget-ajaxloader-' + id );
-
+			
+			 // Hack - Check whether accept box is checked
+		if ( $( '#dk-speakup-accept-' + id ).attr( 'checked' ) ) {
+			presidential = 'y';
+		}
+			
 			if ( share_url === '' ) {
 				share_url = current_url.split('#')[0];
 			}
@@ -104,6 +110,15 @@ jQuery( document ).ready( function( $ ) {
 				$( '#dk-speakup-widget-last-name-' + id ).addClass( 'dk-speakup-widget-error' );
 				errors ++;
 			}
+			if ( postcode === '' ) {
+				$( '#dk-speakup-widget-postcode-' + id ).addClass( 'dk-speakup-widget-error' );
+				errors ++;
+			}
+			
+			// Hack - Check accept
+		if ( accept === 'n') {
+			alert("No has aceptado las condiciones") ;
+		}
 
 			// if no errors found, submit the data via ajax
 			if ( errors === 0 && $( this ).attr( 'rel' ) !== 'disabled' ) {
@@ -124,6 +139,7 @@ jQuery( document ).ready( function( $ ) {
 					country:        country,
 					custom_field:   custom_field,
 					custom_message: custom_message,
+					accept:			accept, //hack for accept chekbox
 					optin:          optin,
 					lang:           lang
 				};

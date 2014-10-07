@@ -25,8 +25,14 @@ jQuery( document ).ready( function( $ ) {
 			country        = $( '#dk-speakup-country-' + id ).val(),
 			custom_field   = $( '#dk-speakup-custom-field-' + id ).val(),
 			custom_message = $( '.dk-speakup-message-' + id ).val(),
+			accept   = 'n', //Hack - to add new 'accept' variable
 			optin          = '',
 			ajaxloader     = $( '#dk-speakup-ajaxloader-' + id );
+			
+		  // Hack - Check whether accept election box is checked
+		if ( $( '#dk-speakup-accept-' + id ).attr( 'checked' ) ) {
+			accept = 'y';
+		}
 
 		// toggle use of .text() / .val() to read from edited textarea properly on Firefox
 		if ( $( '#dk-speakup-textval-' + id ).val() === 'text' ) {
@@ -63,6 +69,20 @@ jQuery( document ).ready( function( $ ) {
 			$( '#dk-speakup-last-name-' + id ).addClass( 'dk-speakup-error' );
 			errors ++;
 		}
+		if ( postcode === '' ) {
+			alert("No introducido CP") ;
+			$( '#dk-speakup-postcode-' + id ).addClass( 'dk-speakup-error' );
+			errors ++;
+		}
+		
+		// Hack - Check checkbox selected (accept)
+		if ( accept === 'n') {
+			alert("No has aceptado los términos") ;
+			$( '#dk-speakup-accept-' + id ).addClass( 'dk-speakup-error' );
+			errors ++;
+		}
+		
+		
 
 		// if no errors found, submit the data via ajax
 		if ( errors === 0 && $( this ).attr( 'rel' ) !== 'disabled' ) {
@@ -84,6 +104,7 @@ jQuery( document ).ready( function( $ ) {
 				custom_field:   custom_field,
 				custom_message: custom_message,
 				optin:          optin,
+				accept:			accept, //hack for accept checkbox
 				lang:           lang
 			};
 

@@ -255,7 +255,7 @@ class dk_speakup_petition_widget extends WP_Widget {
 				if ( in_array( 'postcode', $petition->address_fields ) ) {
 					$petition_widget .= '
 							<div class="dk-speakup-widget-half">
-								<label for="dk-speakup-widget-postcode-' . $petition->id . '">' . __( 'Post Code', 'dk_speakup' ) . '</label>
+								<label class="required" for="dk-speakup-widget-postcode-' . $petition->id . '">' . __( 'Post Code', 'dk_speakup' ) . '</label>
 								<input name="dk-speakup-widget-postcode" id="dk-speakup-widget-postcode-' . $petition->id . '" maxlength="200" type="text">
 							</div>';
 				}
@@ -276,6 +276,19 @@ class dk_speakup_petition_widget extends WP_Widget {
 								<input name="dk-speakup-widget-custom-field" id="dk-speakup-widget-custom-field-' . $petition->id . '" maxlength="400" type="text">
 							</div>';
 				}
+				
+				// Hack to add three new checkboxes
+					$petition_widget .= '
+							<div class="dk-speakup-widget-optin-wrap">
+                <br /><span style="font: normal 13px/1.4em Helvetica, Arial, sans-serif;">I request that the following be included in the scope of review :<span><br /><br />				
+               
+                <input type="checkbox" name="dk-speakup-widget-accept" id="dk-speakup-widget-accept-' . $petition->id . '" checked="checked" />
+                <label for="dk-speakup-widget-accept-' . $petition->id . '">Accept</label><br />
+                
+              </div>
+  					';         
+				// End Hack to add checkboxes 
+				
 				if( $petition->displays_optin == 1 ) {
 					$optin_default = ( $options['optin_default'] == 'checked' ) ? ' checked="checked"' : '';
 					$petition_widget .= '

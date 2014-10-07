@@ -34,7 +34,7 @@ class dk_speakup_Signaturelist
 		$total = $the_signatures->count( $id, 'signaturelist' );
 		$current_signature_number = $total - $start;
 		$signatures_list = '';
-
+		
 		// only show signature lists if there are signatures
 		if ( $total > 0 ) {
 			// determine which columns to display
@@ -54,37 +54,44 @@ class dk_speakup_Signaturelist
 
 			$row_count = 0;
 			foreach ( $signatures as $signature ) {
-				if ( $row_count % 2 ) {
-					$signatures_list .= '<tr class="dk-speakup-even">';
-				}
-				else {
-					$signatures_list .= '<tr class="dk-speakup-odd">';
-				}
-				$signatures_list .= '<td class="dk-speakup-signaturelist-count">' . number_format( $current_signature_number, 0, '.', ',' ) . '</td>';
-				$signatures_list .= '<td class="dk-speakup-signaturelist-name">' . stripslashes( $signature->first_name . ' ' . $signature->last_name ) . '</td>';
+				
 
-				// if we display both city and state, combine them into one column
-				$city  = ( $display_city )  ? $signature->city : '';
-				$state = ( $display_state ) ? $signature->state : '';
-				if ( $display_city && $display_state ) {
-					// should we separate with a comma?
-					$delimiter = ( $city !='' && $state != '' ) ? ', ' : '';
-					$signatures_list .= '<td class="dk-speakup-signaturelist-city">' . stripslashes( $city . $delimiter . $state ) . '</td>';
-				}
-				// else keep city or state values in their own column
-				else {
-					if ( $display_city ) $signatures_list  .= '<td class="dk-speakup-signaturelist-city">' . stripslashes( $city ) . '</td>';
-					if ( $display_state ) $signatures_list .= '<td class="dk-speakup-signaturelist-state">' . stripslashes( $state ) . '</td>';
-				}
-
-				if ( $display_postcode ) $signatures_list .= '<td class="dk-speakup-signaturelist-postcode">' . stripslashes( $signature->postcode ) . '</td>';
-				if ( $display_country ) $signatures_list  .= '<td class="dk-speakup-signaturelist-country">' . stripslashes( $signature->country ) . '</td>';
-				if ( $display_custom ) $signatures_list   .= '<td class="dk-speakup-signaturelist-custom">' . stripslashes( $signature->custom_field ) . '</td>';
-				if ( $display_date ) $signatures_list     .= '<td class="dk-speakup-signaturelist-date">' . date_i18n( $dateformat, strtotime( $signature->date ) ) . '</td>';
-				$signatures_list .= '</tr>';
- 
+					if ( $row_count % 2 ) {
+						$signatures_list .= '<tr class="dk-speakup-even">';
+					}
+					else {
+						$signatures_list .= '<tr class="dk-speakup-odd">';
+					}
+					$signatures_list .= '<td class="dk-speakup-signaturelist-count">' . number_format( $current_signature_number, 0, '.', ',' ) . '</td>';
+					if ($signature->accept == 'y') {
+						$signatures_list .= '<td class="dk-speakup-signaturelist-name">' . stripslashes( $signature->first_name . ' ' . $signature->last_name ) . '</td>';
+					} else {
+						$signatures_list .= '<td class="dk-speakup-signaturelist-name">' . stripslashes( '*****' . ' ' . '******') . '</td>';
+					}
+					
+					// if we display both city and state, combine them into one column
+					$city  = ( $display_city )  ? $signature->city : '';
+					$state = ( $display_state ) ? $signature->state : '';
+					if ( $display_city && $display_state ) {
+						// should we separate with a comma?
+						$delimiter = ( $city !='' && $state != '' ) ? ', ' : '';
+						$signatures_list .= '<td class="dk-speakup-signaturelist-city">' . stripslashes( $city . $delimiter . $state ) . '</td>';
+					}
+					// else keep city or state values in their own column
+					else {
+						if ( $display_city ) $signatures_list  .= '<td class="dk-speakup-signaturelist-city">' . stripslashes( $city ) . '</td>';
+						if ( $display_state ) $signatures_list .= '<td class="dk-speakup-signaturelist-state">' . stripslashes( $state ) . '</td>';
+					}
+	
+					if ( $display_postcode ) $signatures_list .= '<td class="dk-speakup-signaturelist-postcode">' . stripslashes( $signature->postcode ) . '</td>';
+					if ( $display_country ) $signatures_list  .= '<td class="dk-speakup-signaturelist-country">' . stripslashes( $signature->country ) . '</td>';
+					if ( $display_custom ) $signatures_list   .= '<td class="dk-speakup-signaturelist-custom">' . stripslashes( $signature->custom_field ) . '</td>';
+					if ( $display_date ) $signatures_list     .= '<td class="dk-speakup-signaturelist-date">' . date_i18n( $dateformat, strtotime( $signature->date ) ) . '</td>';
+					$signatures_list .= '</tr>';
+				// end of hack dont show after accept
 				$current_signature_number --;
 				$row_count ++;
+				
 			}
 
 			if ( $context !== 'ajax' ) { // only include on initial page load
