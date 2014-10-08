@@ -164,7 +164,20 @@ function dk_speakup_emailpetition_shortcode( $attr ) {
 								<label for="dk-speakup-optin-' . $petition->id . '">' . stripslashes( esc_html( $petition->optin_label ) ) . '</label>
 							</div>';
 				}
-				# Hack for accept checkbox
+				# Hack for accept  and allowname checkbox
+				
+				$petition_form .= '
+							<div class="dk-speakup-optin-wrap">	
+                				
+               
+                <input type="checkbox" name="dk-speakup-allowname" id="dk-speakup-allowname-' . $petition->id . '" />
+                <label for="dk-speakup-allowname-' . $petition->id . '"> Acepto que se publique mi nombre y apellidos en la lista de firmantes </label><br />
+                
+              </div>
+   
+  					';         
+				
+				
 				
 				$petition_form .= '
 							<div class="dk-speakup-optin-wrap">	

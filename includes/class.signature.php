@@ -21,6 +21,7 @@ class dk_speakup_Signature
 	public $confirmation_code = '';
 	public $is_confirmed = '';
 	public $custom_message = '';
+	public $allowname = ''; /* Hack to include new 'allowname' variable */
 	public $accept = ''; /* Hack to include new 'accept' variable */
 	public $submitted_message = '';
 	public $language = '';
@@ -187,12 +188,13 @@ class dk_speakup_Signature
 			'country'           => $this->country,
 			'custom_field'      => $this->custom_field,
 			'custom_message'    => $this->custom_message,
+			'allowname'			=> $this->allowname, // Hack to include new 'allowname' variable 
 			'accept'			=> $this->accept, //Hack accept checkbox
 			'language'          => $this->language
 		);
 		
 		// Note: HAck require to add '%s' foreach new field
-		$format = array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' );
+		$format = array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' );
 
 		$wpdb->insert( $db_signatures, $data, $format );
 
@@ -285,6 +287,10 @@ class dk_speakup_Signature
 		if ( isset( $_POST['optin'] ) && $_POST['optin'] == 'on' ) {
 			$this->optin = 1;
 		}
+		// Hack to include new 'allowname' variable 
+		if ( isset( $_POST['allowname'] ) && $_POST['allowname'] == 'y' ) {
+			$this->allowname = 'y';
+		}		
 		/*Hack - next  statements inserted to set values for new variables accept...*/
 		if ( isset( $_POST['accept'] ) && $_POST['accept'] == 'y' ) {
 			$this->accept = 'y';
@@ -382,6 +388,7 @@ class dk_speakup_Signature
 		$this->confirmation_code = $signature->confirmation_code;
 		$this->is_confirmed      = $signature->is_confirmed;
 		$this->custom_message    = $signature->custom_message;
+		$this->allowname		 = $signature->allowname; /*Hack - added to include 'allowname' field data*/
 		$this->accept     		 = $signature->accept; /*Hack - added to include 'accept' field data*/
 
 	}

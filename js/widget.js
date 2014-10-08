@@ -67,15 +67,20 @@ jQuery( document ).ready( function( $ ) {
 				country        = $( '#dk-speakup-widget-country-' + id ).val(),
 				custom_field   = $( '#dk-speakup-widget-custom-field-' + id ).val(),
 				custom_message = $( 'textarea#dk-speakup-widget-message-' + id ).val(),
+				allowname = 'n', //hack for allowname
 				accept   = 'n', //Hack - to add new 'accept' variable
 				optin          = '',
 				ajaxloader     = $( '#dk-speakup-widget-ajaxloader-' + id );
 			
 			 // Hack - Check whether accept box is checked
 		if ( $( '#dk-speakup-accept-' + id ).attr( 'checked' ) ) {
-			presidential = 'y';
+			accept = 'y';
 		}
-			
+		
+		//hack for allowname
+			if ( $( '#dk-speakup-allowname-' + id ).attr( 'checked' ) ) {
+			allowname = 'y';
+		}
 			if ( share_url === '' ) {
 				share_url = current_url.split('#')[0];
 			}
@@ -111,15 +116,17 @@ jQuery( document ).ready( function( $ ) {
 				errors ++;
 			}
 			if ( postcode === '' ) {
+				alert("No has introducido el Código postal") ;
 				$( '#dk-speakup-widget-postcode-' + id ).addClass( 'dk-speakup-widget-error' );
 				errors ++;
 			}
 			
-			// Hack - Check accept
-		if ( accept === 'n') {
-			alert("No has aceptado las condiciones") ;
-		}
-
+			// Hack - Check checkbox selected (accept)
+			if ( accept === 'n') {
+				alert("No has aceptado los términos") ;
+				$( '#dk-speakup-accept-' + id ).addClass( 'dk-speakup-error' );
+				errors ++;
+			}
 			// if no errors found, submit the data via ajax
 			if ( errors === 0 && $( this ).attr( 'rel' ) !== 'disabled' ) {
 
@@ -139,6 +146,7 @@ jQuery( document ).ready( function( $ ) {
 					country:        country,
 					custom_field:   custom_field,
 					custom_message: custom_message,
+					allowname:		allowname  //hack for allowname chekbox
 					accept:			accept, //hack for accept chekbox
 					optin:          optin,
 					lang:           lang

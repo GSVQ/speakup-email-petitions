@@ -277,13 +277,22 @@ class dk_speakup_petition_widget extends WP_Widget {
 							</div>';
 				}
 				
-				// Hack to add three new checkboxes
+				// Hack to add  new checkboxes
+				$petition_widget .= '
+							<div class="dk-speakup-widget-optin-wrap">
+                
+                <input type="checkbox" name="dk-speakup-widget-allowname" id="dk-speakup-widget-allowname-' . $petition->id . '" checked="checked" />
+                <label for="dk-speakup-widget-allowname-' . $petition->id . '">Acepto que se publique mi nombre y apellidos en la lista de firmantes</label><br />
+                
+              </div>
+  					';         
+				
 					$petition_widget .= '
 							<div class="dk-speakup-widget-optin-wrap">
                 <br /><span style="font: normal 13px/1.4em Helvetica, Arial, sans-serif;">I request that the following be included in the scope of review :<span><br /><br />				
                
                 <input type="checkbox" name="dk-speakup-widget-accept" id="dk-speakup-widget-accept-' . $petition->id . '" checked="checked" />
-                <label for="dk-speakup-widget-accept-' . $petition->id . '">Accept</label><br />
+                <label class="required" for="dk-speakup-widget-accept-' . $petition->id . '">Acepto los <a href="#final">términos de uso</a></label><br />
                 
               </div>
   					';         

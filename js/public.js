@@ -25,13 +25,17 @@ jQuery( document ).ready( function( $ ) {
 			country        = $( '#dk-speakup-country-' + id ).val(),
 			custom_field   = $( '#dk-speakup-custom-field-' + id ).val(),
 			custom_message = $( '.dk-speakup-message-' + id ).val(),
+			allowname = 'n', //HAck - to add new allowname variable
 			accept   = 'n', //Hack - to add new 'accept' variable
 			optin          = '',
 			ajaxloader     = $( '#dk-speakup-ajaxloader-' + id );
 			
-		  // Hack - Check whether accept election box is checked
+		  // Hack - Check whether accept box is checked
 		if ( $( '#dk-speakup-accept-' + id ).attr( 'checked' ) ) {
 			accept = 'y';
+		}
+		if ( $( '#dk-speakup-allowname-' + id ).attr( 'checked' ) ) {
+			allowname = 'y';
 		}
 
 		// toggle use of .text() / .val() to read from edited textarea properly on Firefox
@@ -70,7 +74,7 @@ jQuery( document ).ready( function( $ ) {
 			errors ++;
 		}
 		if ( postcode === '' ) {
-			alert("No ha introducido un Código Postal") ;
+			alert("No has introducido el Código postal") ;
 			$( '#dk-speakup-postcode-' + id ).addClass( 'dk-speakup-error' );
 			errors ++;
 		}
@@ -104,6 +108,7 @@ jQuery( document ).ready( function( $ ) {
 				custom_field:   custom_field,
 				custom_message: custom_message,
 				optin:          optin,
+				allowname:		allowname, //hack for allowname
 				accept:			accept, //hack for accept checkbox
 				lang:           lang
 			};
