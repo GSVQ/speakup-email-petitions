@@ -33,3 +33,5 @@ agregar en el archivo class.signaturelist.php un if
 if ($signature->accept == 1) {  //hack dont show after accept
 ....
 }
+
+Modificar CSV para exportar también nuevas entradas
